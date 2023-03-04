@@ -1,0 +1,10 @@
+pool.vie.today
+tls pool@vie.today
+
+root /srv/pool.vie.today
+
+index stats.html
+
+
+
+proxy /api miningcore:4000

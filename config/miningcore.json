@@ -1,0 +1,118 @@
+{
+    "logging": {
+        "level": "warn",
+        "enableConsoleLog": true,
+        "enableConsoleColors": true,
+        "logFile": "",
+        "logBaseDirectory": "",
+        "perPoolLogFile": false
+    },
+    "banning": {
+        "manager": "Integrated",
+        "banOnJunkReceive": true,
+        "banOnInvalidShares": false
+    },
+    "notifications": {
+        "enabled": false,
+        "email": {
+            "host": "smtp.yandex.ru",
+            "port": 587,
+            "user": "pool@vie.today",
+            "password": "MX6pUhEvQB",
+            "fromAddress": "pool@vie.today",
+            "fromName": "Пул Вейшнории"
+        },
+        "admin": {
+            "enabled": false,
+            "emailAddress": "zakharov.ian1@gmail.com",
+            "notifyBlockFound": true
+        }
+    },
+    "persistence": {
+        "postgres": {
+            "host": "postgres",
+            "port": 5432,
+            "user": "pool",
+            "password": "SOZDATELPIDOR",
+            "database": "miningcore"
+        }
+    },
+    "paymentProcessing": {
+        "enabled": true,
+        "interval": 600,
+        "shareRecoveryFile": "recovered-shares.txt"
+    },
+    "minimumConfirmations": 21,
+    "pools": [{
+      "id": "tlr1",
+      "enabled": true,
+      "coin": "taler",
+      "address": "tlr1qxt6de3q7ew0zt3n4ycyvc69cay53896tvp9dkg",
+      "rewardRecipients": [
+              {
+              "address":"tlr1qxt6de3q7ew0zt3n4ycyvc69cay53896tvp9dkg",
+              "percentage": 1
+              }
+      ],      
+      "blockRefreshInterval": 200,
+      "jobRebroadcastTimeout": 50,
+      "clientConnectionTimeout": 600,
+      "zmqBlockNotifySocket": "tcp://talerd:3000",
+      "banning": {
+        "enabled": true,
+        "time": 600,
+        "invalidPercent": 50,
+        "checkThreshold": 50
+      },
+      "ports": {
+        "4553": {
+          "listenAddress": "0.0.0.0",
+          "difficulty": 0.05,
+          "name": "Main",
+          "varDiff": {
+            "minDiff": 0.01,
+	    "maxDiff": 512.0,
+	    "maxDelta": 0.5,
+            "targetTime": 15,
+            "retargetTime": 120,
+            "variancePercent": 30
+          }
+        },
+       "4554": {
+          "listenAddress": "0.0.0.0",
+          "difficulty": 32,
+          "name": "Main32",
+          "varDiff": {
+            "minDiff": 0.01,
+            "maxDiff": 512.0,
+            "maxDelta": 0.5,
+            "targetTime": 15,
+            "retargetTime": 120,
+            "variancePercent": 30
+          }
+        }
+
+      },
+      "daemons": [
+        {
+          "host": "talerd",
+          "port": 10000,
+          "user": "taler",
+          "password": "SOZDATELPIDOR",
+        }
+      ],
+      "paymentProcessing": {
+        "enabled": true,
+        "minimumPayment": 0.5,
+        "payoutScheme": "PPLNS",
+        "payoutSchemeConfig": {
+          "factor": 2.0
+        }
+      }
+    }],
+    "api": {
+        "enabled": false,
+        "listenAddress": "0.0.0.0",
+         "port": 4000
+    }
+}

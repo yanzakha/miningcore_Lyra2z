@@ -1,0 +1,54 @@
+version: '3.1'
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "SOZDATELPIDOR"
+      POSTGRES_USER: "pool"
+      POSTGRES_DB: "miningcore"
+    volumes:
+      - "./data/initial/postgresql:/docker-entrypoint-initdb.d"
+      - "./data/postgres:/var/lib/postgresql/data"
+      - "./docker/miningcore/src/Miningcore/Persistence/Postgres/Scripts:/postgres_scheme"
+    ports:
+      - "5432:5432"
+
+  miningcore:
+    restart: always
+    build: docker/miningcore
+    depends_on:
+      - talerd
+      - postgres
+    volumes:
+      - "./config/miningcore.json:/app/config.json"
+    ports:
+      - "4553:4553"
+      - "4554:4554"
+      - "4000:4000"
+      - "4066:4066"
+      - "4067:4067"
+
+  talerd:
+    restart: always
+    build: docker/talerd
+    environment: 
+      TALER_RPC_PASSWORD: "SOZDATELPIDOR"
+      TALER_RPC_USER: "taler"
+    volumes:
+      - "./data/taler:/home/taler/.taler"
+    ports:
+      - "23153:23153"
+      - "10000:10000"
+#  caddy:
+#    image: abiosoft/caddy
+#    restart: always
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    environment:
+#      ACME_AGREE: 1
+#    volumes:
+#      - "./web:/srv/pool.vie.today"
+#      - "./config/Caddyfile:/etc/Caddyfile"
+
